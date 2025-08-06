@@ -1,0 +1,17 @@
+@use 'sass:math'; 
+// button
+.button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+// button group
+.btn-ico-wrap {
+    display: flex;
+    // margin-top: 0;
+    align-items: center;
+    // gap: 5px;
+}

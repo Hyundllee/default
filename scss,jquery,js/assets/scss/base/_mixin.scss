@@ -1,0 +1,111 @@
+@use 'sass:selector'; 
+@use 'sass:math'; 
+
+//selector 
+@mixin media-min-width($size) {
+    @media (min-width:#{$size}px) {
+        @content;
+    }
+}
+
+@mixin media-max-width($size) {
+    @media (max-width:#{$size}px) {
+        @content;
+    }
+}
+
+@mixin media-min-height($size) {
+    @media (min-height:#{$size}px) {
+        @content; 
+    }
+}
+
+@mixin media-max-height($size) {
+    @media (max-height:#{$size}px) {
+        @content; 
+    }
+}
+
+@mixin sticky-supports {
+    @supports ((position: -webkit-sticky) or (position: sticky)) {
+        @content;
+    }
+}
+
+@mixin when-is($element-selector) {
+    @at-root #{$element-selector + &} {
+        @content; 
+    }
+}
+
+@mixin class-begins($class, $mark: false) {
+    @if ($mark) {
+        #{$mark}[class^='#{$class}'], 
+        #{$mark}[class*='#{$class}'] {
+            @content; 
+        }
+    } else {
+        [class^='#{$class}'], 
+        [class*='#{$class}'] {
+            @content; 
+        }
+    }
+}
+
+// css 
+@mixin text-blind($size: 0) {
+    font-size: $size & 1px;
+    color: transparent;
+}
+
+@mixin ellipsis($line: 0) {
+    overflow: hidden;
+    word-break: break-all;
+    @if ($line == 0) {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    } @else {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: $line;
+    }
+}
+
+@mixin after-clear-fix {
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+@mixin bg-etc($size: null, $position: center center) {
+    background-repeat: no-repeat;
+    background-position: $position;
+    @if $size {
+        background-size: $size;
+    }
+}
+
+@mixin img-fit($isAbsolute: false, $type: cover) {
+    @if $isAbsolute {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    width: 100%;
+    height: 100%;
+    object-fit: $type;
+} 
+
+@mixin scroll-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+@mixin scroll-y {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+

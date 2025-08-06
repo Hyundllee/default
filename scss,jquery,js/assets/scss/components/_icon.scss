@@ -1,0 +1,34 @@
+@use 'sass:math'; 
+
+//icon 
+@include class-begins('i-ico-') {
+    @include icon-default; 
+}
+@include class-begins('i-btn-') {
+    @include icon-default; 
+}
+@include class-begins('i-img-') {
+    @include icon-default; 
+}
+@include class-begins('i-badge-') {
+    @include icon-default; 
+}
+
+$boxIcons: ('company', 'note', 'country', 'code'); 
+@each $icon in $boxIcons {
+    .i-ico-box-#{$icon} {
+        background-image: url(../images/icon/ico-box-#{$icon}.png);
+    }
+}
+
+
+@include class-begins('i-ico-step-') {
+    width: 60px;
+    background-size: contain;
+    @include before-height; 
+}
+@for $i from 1 through 4 {
+    .i-ico-step-#{$i} {
+        background-image: url(../images/icon/ico-step-#{$i}.png);
+    }
+}

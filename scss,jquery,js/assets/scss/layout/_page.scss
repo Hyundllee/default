@@ -1,0 +1,28 @@
+.skip-navi {
+    z-index: 9999;
+    a {
+        display: block;
+        position: absolute;
+        top: -9999px;
+        width: 100%;
+        line-height: 45px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        color: $white-color;
+        text-decoration: underline;
+        background-color: $black-color;
+        &:focus, 
+        &:active {
+            top: 0;
+        }
+    }
+}
+
+// page-header 
+
+
+// page-gnb 
+
+
+// page-footer

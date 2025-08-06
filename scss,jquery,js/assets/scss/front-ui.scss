@@ -1,0 +1,38 @@
+@charset 'utf-8'; 
+
+// base
+@use 'base/mixin'; 
+@use 'base/function'; 
+@use 'base/mixin'; 
+@use 'base/variables'; 
+
+// layout
+@use 'layout/page'; 
+
+
+// components
+@use 'components/animation';
+@use 'components/button';
+@use 'components/etc';
+@use 'components/icon';
+@use 'components/img';
+@use 'components/input';
+@use 'components/pagination';
+@use 'components/select';
+@use 'components/swiper';
+@use 'components/tab';
+@use 'components/table';
+@use 'components/text';
+@use 'components/textarea';
+@use 'components/tooltip';
+
+
+// popup 
+@use 'popup/popup'; 
+
+// contents
+@use 'contents/contents';
+@use 'contents/error';
+@use 'contents/guide';
+@use 'contents/main';
+
