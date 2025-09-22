@@ -24,6 +24,7 @@
     // str += '<link href="' + path() + 'css/front.min.css" rel="stylesheet" />'; 
 
     str += '<script type="text/javascript" src="' + path() + 'js/lib/jquery-3.7.1.min.js"></script>';
+    str += '<script type="text/javascript" src="' + path() + 'js/ui-util.js"></script>';
     str += '<script type="text/javascript" src="' + path() + 'js/ui-front.js"></script>';
 
     document.write(str); 

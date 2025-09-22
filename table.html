@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table id="myTable">
+  <thead>
+    <tr>
+        <th>
+            번호
+        </th>
+      <th>
+        년도
+        <button class="up-down-icon" data-col="0">⇅</button>
+      </th>
+      <th>
+        반영일
+        <button class="up-down-icon" data-col="1">⇅</button>
+      </th>
+      <th>이름</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>0</td>
+      <td>2021</td>
+      <td>2023-05-10</td>
+      <td>홍길동</td>
+    </tr>
+    <tr>
+            <td>1</td>
+      <td>2019</td>
+      <td>2021-02-14</td>
+      <td>김철수</td>
+    </tr>
+    <tr>
+            <td>2</td>
+      <td>2023</td>
+      <td>2024-01-01</td>
+      <td>이영희</td>
+    </tr>
+    <tr>
+            <td>3</td>
+      <td>2020</td>
+      <td>2022-11-30</td>
+      <td>박민수</td>
+    </tr>
+  </tbody>
+</table>
+
+
+    <script>
+        const table = document.getElementById("myTable");
+const buttons = document.querySelectorAll(".up-down-icon");
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const colIndex = parseInt(btn.dataset.col, 10); // 몇 번째 열인지
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    const isAscending = !btn.classList.contains("up");
+
+    rows.sort((a, b) => {
+      let aText = a.cells[colIndex].innerText.trim();
+      let bText = b.cells[colIndex].innerText.trim();
+
+      // 날짜 형식(YYYY-MM-DD)이면 Date 비교, 아니면 숫자/문자 비교
+      if (/^\d{4}-\d{2}-\d{2}$/.test(aText) && /^\d{4}-\d{2}-\d{2}$/.test(bText)) {
+        return isAscending
+          ? new Date(aText) - new Date(bText)
+          : new Date(bText) - new Date(aText);
+      }
+
+      // 숫자인 경우
+      if (!isNaN(aText) && !isNaN(bText)) {
+        return isAscending
+          ? Number(aText) - Number(bText)
+          : Number(bText) - Number(aText);
+      }
+
+      // 기본 문자열 비교
+      return isAscending
+        ? aText.localeCompare(bText)
+        : bText.localeCompare(aText);
+    });
+
+    // tbody에 다시 삽입
+    rows.forEach(row => tbody.appendChild(row));
+
+    // 다른 버튼 클래스 초기화
+    buttons.forEach(b => b.classList.remove("up", "down"));
+
+    // 클릭된 버튼만 상태 반영
+    btn.classList.toggle("up", isAscending);
+    btn.classList.toggle("down", !isAscending);
+  });
+});
+
+    </script>
+</body>
+</html>

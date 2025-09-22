@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid 4 Columns Flexible</title>
+  <style>
+    .grid-wrap {
+      display: grid;
+      grid-template-columns: 120px 1fr; /* 왼쪽 span, 오른쪽 ul */
+      gap: 8px;
+      max-width: 1000px; /* 데모용 */
+      margin: 0 auto;
+    }
+
+    .grid-wrap > div {
+      display: contents;
+    }
+
+    .grid-wrap span {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    .grid-wrap ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 항상 4칸 */
+      gap: 8px;
+      width: 100%; /* 부모 공간 꽉 채움 */
+    }
+
+    .grid-wrap li {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-wrap">
+    <div>
+      <span>테스트1</span>
+      <ul>
+        <li>짧음</li>
+        <li>중간</li>
+        <li>길어진 텍스트</li>
+        <li>끝</li>
+      </ul>
+    </div>
+    <div>
+      <span>테스트2</span>
+      <ul>
+        <li>111111</li>
+        <li>22</li>
+        <li>333</li>
+        <li>444444444</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
