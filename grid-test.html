@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .grid-contents {
+            width: 100%;
+            display: grid;
+            grid-template-columns: minmax(135px, auto) 1fr;
+            gap: 13px;
+        }
+        .grid-contents > li {
+            display: contents;
+        }
+        .grid-contents > li > dl {
+            display: contents;
+        }
+        .grid-contents > li > dl > dd {
+            display: grid;
+        }
+    </style>
+</head>
+<body>
+    <ul class="grid-contents">
+    <li class="li-list">
+      <dl class="grid-wrap">
+        <dt>아이템 목록1</dt>
+        <dd class="grid-list">
+          <div>가나다라</div>
+          <div>가나다</div>
+          <div>가나다라</div>
+          <div>가나다라</div>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <dl>
+        <dt>아이템 목록2</dt>
+        <dd>
+          <div>가나다라</div>
+          <div>가나다</div>
+          <div>가나다라</div>
+          <div>가나다라</div>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <dl>
+        <dt>아이템 목록3</dt>
+        <dd>
+          <div>가나다라</div>
+          <div>가나다</div>
+          <div>가나다라</div>
+          <div>가나다라</div>
+        </dd>
+      </dl>
+    </li>
+  </ul>
+</body>
+</html>

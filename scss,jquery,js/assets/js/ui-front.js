@@ -291,5 +291,56 @@ ui.common = {
         if ($('.page-lnb-inner .active').length) $('.page-lnb-wrap').removeClass('hide'); 
         else if ($('.page-lnb-inner').length === $('.page-lnb-inner.hide').length) $('.page-lnb-wrap').addClass('hide'); 
         $('.page-lnb-wrap').addClass('show'); 
+    }, 
+    UI: function () {
+        $(document).on('click', '.page-gnb-btn', function (e) {
+            e.preventDefault();
+            const $this = $(this); 
+            $this.toggleClass('open'); 
+            const $wrap = $('.all-menu-inner'); 
+            const $gnb = $('.page-gnb'); 
+            if (!$wrap.find('.all-menu').length) {
+                const $clone = $gnb.clone(); 
+                $clone.removeClass('page-gnb').addClass('all-menu'); 
+                $wrap.prepend($clone); 
+            }
+            if ($this.hasClass('open')) Body.lock(); 
+            else Body.unlock();
+        });
+        $(document).on('click', '.all-menu-close', function (e) {
+            e.preventDefault(); 
+            Body.unlock(); 
+            $('.page.gnb-btn').removeClass('open').focus(); 
+        })
+    }
+}
+
+const Body = {
+    scrollTop: '', 
+    lock: function () {
+        if ($('html').hasClass('lock')) return; 
+
+        if (ui.mobile.any()) {
+            Body.scrollTop = window.scrollY; 
+            const $wrap = $(ui.className.mainWrap + ':visible'); 
+            if ($wrap.length) {
+                const $wrapTop = $wrap.offset().top; 
+                const $setTop = Body.scrollTop * -1 + $wrapTop; 
+                $wrap.addClass('lock-wrap').css('top' , $setTop);
+            }
+        }
+        $('html').addClass('lock');
+    }, 
+    unlock : function () {
+        if (!$('html').hasClass('lock')) return; 
+
+        $('html').removeClass('lock'); 
+        if (ui.mobile.any()) {
+            $('.lock-wrap').removeClass('lock-wrap').removeAttr('style'); 
+            window.scrollTo(0, Body.scrollTop); 
+            window.setTimeout(function () {
+                Body.scrollTop = '';
+            }, 0);
+        }
     }
 }

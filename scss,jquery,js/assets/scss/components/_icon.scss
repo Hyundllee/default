@@ -1,4 +1,5 @@
-@use 'sass:math'; 
+// components/_icon.scss
+@use '../base/index' as *;
 
 //icon 
 @include class-begins('i-ico-') {

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>미세먼지 & 초미세먼지 게이지</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .chart-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .chart-wrap {
+      width: 250px;
+      height: 250px;
+      text-align: center;
+      position: relative;
+    }
+    .chart-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .status-text {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">미세먼지 & 초미세먼지 현황</h2>
+  <div class="chart-container">
+    <!-- 미세먼지 -->
+    <div class="chart-wrap">
+      <canvas id="pm10Chart"></canvas>
+      <div class="chart-center" id="pm10Value">0</div>
+      <div class="status-text" id="pm10Status">-</div>
+    </div>
+    <!-- 초미세먼지 -->
+    <div class="chart-wrap">
+      <canvas id="pm25Chart"></canvas>
+      <div class="chart-center" id="pm25Value">0</div>
+      <div class="status-text" id="pm25Status">-</div>
+    </div>
+  </div>
+
+  <script>
+    // === 수치 입력 ===
+    const pm10Value = 10;  // 미세먼지
+    const pm25Value = 28;  // 초미세먼지
+
+    // === 상태 판별 함수 ===
+    function getPm10Status(value) {
+      if (value <= 30) return { text: "좋음", color: "#2196F3" };   // 파랑
+      if (value <= 80) return { text: "보통", color: "#4CAF50" };   // 초록
+      if (value <= 150) return { text: "나쁨", color: "#FF9800" };  // 주황
+      return { text: "매우 나쁨", color: "#F44336" };              // 빨강
+    }
+
+    function getPm25Status(value) {
+      if (value <= 15) return { text: "좋음", color: "#2196F3" };
+      if (value <= 35) return { text: "보통", color: "#4CAF50" };
+      if (value <= 75) return { text: "나쁨", color: "#FF9800" };
+      return { text: "매우 나쁨", color: "#F44336" };
+    }
+
+    // === 양쪽 끝 둥글게 처리 플러그인 ===
+    const roundedCaps = {
+      id: 'roundedCaps',
+      afterDatasetDraw(chart, args) {
+        const {ctx} = chart;
+        const meta = args.meta;
+        const arc = meta.data[0];
+        if (!arc) return;
+
+        const {x, y} = arc.getProps(['x', 'y'], true);
+        const radius = (arc.outerRadius + arc.innerRadius) / 2;
+        const capRadius = (arc.outerRadius - arc.innerRadius) / 2;
+
+        // 시작점
+        ctx.save();
+        ctx.fillStyle = arc.options.backgroundColor;
+        ctx.beginPath();
+        ctx.arc(
+          x + Math.cos(arc.startAngle) * radius,
+          y + Math.sin(arc.startAngle) * radius,
+          capRadius,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+        ctx.restore();
+
+        // 끝점
+        ctx.save();
+        ctx.fillStyle = arc.options.backgroundColor;
+        ctx.beginPath();
+        ctx.arc(
+          x + Math.cos(arc.endAngle) * radius,
+          y + Math.sin(arc.endAngle) * radius,
+          capRadius,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+        ctx.restore();
+      }
+    };
+
+    // === 미세먼지 차트 ===
+    const pm10Status = getPm10Status(pm10Value);
+    new Chart(document.getElementById('pm10Chart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [pm10Value, 200 - pm10Value], // 기준치 200
+          backgroundColor: [pm10Status.color, '#E0E0E0'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: { legend: { display: false }, tooltip: { enabled: false } }
+      },
+      plugins: [roundedCaps]
+    });
+    document.getElementById('pm10Value').innerText = pm10Value;
+    document.getElementById('pm10Value').style.color = pm10Status.color;   // ✅ 숫자 색상 변경
+    document.getElementById('pm10Status').innerText = pm10Status.text;
+    document.getElementById('pm10Status').style.color = pm10Status.color;
+
+    // === 초미세먼지 차트 ===
+    const pm25Status = getPm25Status(pm25Value);
+    new Chart(document.getElementById('pm25Chart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [pm25Value, 100 - pm25Value], // 기준치 100
+          backgroundColor: [pm25Status.color, '#E0E0E0'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: { legend: { display: false }, tooltip: { enabled: false } }
+      },
+      plugins: [roundedCaps]
+    });
+    document.getElementById('pm25Value').innerText = pm25Value;
+    document.getElementById('pm25Value').style.color = pm25Status.color;   // ✅ 숫자 색상 변경
+    document.getElementById('pm25Status').innerText = pm25Status.text;
+    document.getElementById('pm25Status').style.color = pm25Status.color;
+  </script>
+</body>
+</html>
